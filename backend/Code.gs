@@ -17,6 +17,16 @@
     return null;
   }
 
+  function requireBackendAuth() {
+    var backendAuth = getBackendAuth();
+
+    if (!backendAuth || typeof backendAuth.loginCustom !== 'function' || typeof backendAuth.loginGoogle !== 'function') {
+      throw new Error('Backend auth module is unavailable. Ensure Auth.gs is included in the deployed Apps Script version.');
+    }
+
+    return backendAuth;
+  }
+
   function getBackendCharacters() {
     if (root.BackendCharacters) {
       return root.BackendCharacters;
@@ -96,7 +106,7 @@
     }
 
     if (body.googleIdToken) {
-      return getBackendAuth().loginGoogle(body.googleIdToken);
+      return requireBackendAuth().loginGoogle(body.googleIdToken);
     }
 
     if (body.token) {
@@ -114,16 +124,16 @@
       throw getBackendUtils().createError('Invalid or expired session');
     }
 
-    return getBackendAuth().buildUserSession(user, token);
+    return requireBackendAuth().buildUserSession(user, token);
   }
 
   function routeAction(action, body, authenticatedUser) {
     if (action === ACTION_LOGIN_CUSTOM) {
-      return getBackendAuth().loginCustom(body.username, body.passwordHash);
+      return requireBackendAuth().loginCustom(body.username, body.passwordHash);
     }
 
     if (action === ACTION_LOGIN_GOOGLE) {
-      return getBackendAuth().loginGoogle(body.idToken);
+      return requireBackendAuth().loginGoogle(body.idToken);
     }
 
     if (action === ACTION_GET_CHARACTERS) {
