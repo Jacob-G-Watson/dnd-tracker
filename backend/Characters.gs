@@ -42,7 +42,6 @@
     }
 
     ensureCharacterAccess(character, userId, role);
-    sanitizedUpdates.level = sanitizedUpdates.sessions;
 
     return getBackendSheets().updateCharacterRecord(characterId, sanitizedUpdates);
   }
@@ -54,7 +53,6 @@
       characterId: root.BackendUtils.generateUuid(),
       class: fields.class || '',
       description: fields.description || '',
-      level: sessions,
       name: fields.name || '',
       race: fields.race || '',
       sessions: sessions,

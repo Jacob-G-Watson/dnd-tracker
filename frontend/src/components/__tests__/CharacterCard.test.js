@@ -10,7 +10,6 @@ function buildCharacterCard(currentUser) {
 				characterId: "c001",
 				class: "Rogue",
 				description: "Quiet wanderer",
-				level: 5,
 				name: "Thorne",
 				race: "Elf",
 				sessions: 5,

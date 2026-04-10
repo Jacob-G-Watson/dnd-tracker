@@ -67,14 +67,13 @@ Columns:
 - `class`
 - `race`
 - `sessions` (integer)
-- `level` (integer, equal to sessions)
 - `description`
 
 Example:
-| characterId | userId | name   | class | race | sessions | level | description        |
-|-------------|--------|--------|-------|------|----------|-------|--------------------|
-| c001        | u001   | Thorne | Rogue | Elf  | 5        | 5     | A quiet wanderer   |
-| c002        | u002   | Mira   | Cleric| Human| 3        | 3     | Devout healer      |
+| characterId | userId | name   | class | race | sessions | description        |
+|-------------|--------|--------|-------|------|----------|--------------------|
+| c001        | u001   | Thorne | Rogue | Elf  | 5        | A quiet wanderer   |
+| c002        | u002   | Mira   | Cleric| Human| 3        | Devout healer      |
 
 **Note:** There is no player or character deletion. Once created, users and characters cannot be deleted from the system.
 
@@ -111,13 +110,13 @@ Example:
 
 ### Players:
 - Can view only their own characters (unless you choose otherwise)
-- Can modify their own characters (where `Characters.userId === currentUser.userId`), including updating their own session count (and thus level)
+- Can modify their own characters (where `Characters.userId === currentUser.userId`), including updating their own session count
 
 
 ### DM:
 - Can view and modify all characters
 - Can add sessions
-- Can edit session counts (thus levels)
+- Can edit session counts
 
 ### Anonymous users:
 - Cannot read or write anything
@@ -200,7 +199,6 @@ Rules:
   - class
   - race
   - sessions
-  - level
   - description
 - Allow editing only if:
   - `character.userId === currentUser.userId` OR `currentUser.role === "DM"`
@@ -257,7 +255,7 @@ To prevent abuse, all API endpoints should implement basic rate limiting:
 - Apps Script should be written in ES5 syntax.
 - Use UUIDs for `userId` and `characterId`.
 - Hash passwords using SHA256 or bcrypt (client-side or script-side).
-- Level always equals sessions.
+- Do not store a `level` column; progression is represented by `sessions` only.
 
 ```
 

@@ -6,9 +6,9 @@ describe("getCharacters", () => {
 		it("when called then returns only their characters", () => {
 			const spreadsheet = createSpreadsheet({
 				Characters: createSheet([
-					["characterId", "userId", "name", "class", "race", "sessions", "level", "description"],
-					["c001", "u001", "Thorne", "Rogue", "Elf", 5, 5, "Quiet wanderer"],
-					["c002", "u002", "Mira", "Cleric", "Human", 3, 3, "Healer"],
+					["characterId", "userId", "name", "class", "race", "sessions", "description"],
+					["c001", "u001", "Thorne", "Rogue", "Elf", 5, "Quiet wanderer"],
+					["c002", "u002", "Mira", "Cleric", "Human", 3, "Healer"],
 				]),
 			});
 
@@ -26,9 +26,9 @@ describe("getCharacters", () => {
 		it("when called then returns all characters", () => {
 			const spreadsheet = createSpreadsheet({
 				Characters: createSheet([
-					["characterId", "userId", "name", "class", "race", "sessions", "level", "description"],
-					["c001", "u001", "Thorne", "Rogue", "Elf", 5, 5, "Quiet wanderer"],
-					["c002", "u002", "Mira", "Cleric", "Human", 3, 3, "Healer"],
+					["characterId", "userId", "name", "class", "race", "sessions", "description"],
+					["c001", "u001", "Thorne", "Rogue", "Elf", 5, "Quiet wanderer"],
+					["c002", "u002", "Mira", "Cleric", "Human", 3, "Healer"],
 				]),
 			});
 
@@ -45,8 +45,8 @@ describe("updateCharacter", () => {
 		it("when called then it throws a permission error", () => {
 			const spreadsheet = createSpreadsheet({
 				Characters: createSheet([
-					["characterId", "userId", "name", "class", "race", "sessions", "level", "description"],
-					["c001", "u001", "Thorne", "Rogue", "Elf", 5, 5, "Quiet wanderer"],
+					["characterId", "userId", "name", "class", "race", "sessions", "description"],
+					["c001", "u001", "Thorne", "Rogue", "Elf", 5, "Quiet wanderer"],
 				]),
 			});
 
