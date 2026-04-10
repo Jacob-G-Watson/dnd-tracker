@@ -1,7 +1,7 @@
 import { useAuthStore } from "../stores/auth";
 
 const API_URL =
-	"https://script.google.com/macros/s/AKfycbx0H0ta7nuS2DzJmXjDmu0yqRxndFSOpw4zFTnZ63HsMo-JaXMnwwMWWOs0vx2q0vNV1Q/exec";
+	"https://script.google.com/macros/s/AKfycbx9TawextxW-7gJFrwx_5KoNEbf4hOJT6IJZDY6uRZmN8f3oMVH40sNjAeYpK9gI5PMBQ/exec";
 const AUTH_ERROR_MESSAGES = ["Authentication is required", "Invalid or expired session"];
 const CONTENT_TYPE_TEXT = "text/plain;charset=utf-8";
 
