@@ -44,6 +44,8 @@
     var sheet = getSpreadsheet().getSheetByName(sheetName);
 
     if (!sheet) {
+      var available = getSpreadsheet().getSheets().map(function (s) { return s.getName(); }).join(', ');
+      console.log('Missing sheet: ' + sheetName + ' | Available sheets: ' + available);
       throw getBackendUtils().createError('Missing sheet: ' + sheetName);
     }
 
@@ -54,6 +56,7 @@
     var values = getSheet(sheetName).getDataRange().getValues();
 
     if (!values.length) {
+      console.log('No rows found in sheet: ' + sheetName);
       return [];
     }
 
