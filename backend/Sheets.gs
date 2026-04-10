@@ -23,10 +23,18 @@
     }
 
     if (root.SpreadsheetApp.getActiveSpreadsheet) {
-      return root.SpreadsheetApp.getActiveSpreadsheet();
+      var activeSpreadsheet = root.SpreadsheetApp.getActiveSpreadsheet();
+
+      if (activeSpreadsheet) {
+        return activeSpreadsheet;
+      }
     }
 
-    return root.SpreadsheetApp.openById(getSheetId());
+    try {
+      return root.SpreadsheetApp.openById(getSheetId());
+    } catch (error) {
+      throw getBackendUtils().createError('Unable to open spreadsheet by SHEET_ID. Verify script property and sharing permissions.');
+    }
   }
 
   function getSheetId() {
