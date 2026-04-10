@@ -3,7 +3,7 @@ import { onMounted } from 'vue';
 
 const emit = defineEmits(['success']);
 
-const CLIENT_ID = 'REPLACE_WITH_GOOGLE_CLIENT_ID';
+const CLIENT_ID = '825391979156-nav8rhp687mvg02grt6elvfo4c2cubrg.apps.googleusercontent.com';
 const GOOGLE_SCRIPT_SOURCE = 'https://accounts.google.com/gsi/client';
 
 function loadGoogleScript() {
