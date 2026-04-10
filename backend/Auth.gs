@@ -88,11 +88,62 @@
     };
   }
 
+  function registerCustom(firstName, lastName, username, passwordHash) {
+    if (!firstName || !lastName || !username || !passwordHash) {
+      throw getBackendUtils().createError('All fields are required to register');
+    }
+
+    var existingUser = getBackendSheets().getUserByUsername(username);
+
+    if (existingUser) {
+      throw getBackendUtils().createError('Username is already taken');
+    }
+
+    var user = {
+      email: '',
+      firstName: firstName,
+      lastName: lastName,
+      passwordHash: passwordHash,
+      role: 'player',
+      userId: getBackendUtils().generateUuid(),
+      username: username
+    };
+
+    getBackendSheets().createUserRecord(user);
+
+    return buildUserSession(user, getBackendSessions().createSession(user.userId));
+  }
+
+  function registerGoogle(idToken) {
+    var tokenPayload = verifyGoogleToken(idToken);
+    var existingUser = getBackendSheets().getUserByEmail(tokenPayload.email);
+
+    if (existingUser) {
+      throw getBackendUtils().createError('An account with this Google email already exists. Please log in instead.');
+    }
+
+    var user = {
+      email: tokenPayload.email,
+      firstName: tokenPayload.given_name || '',
+      lastName: tokenPayload.family_name || '',
+      passwordHash: '',
+      role: 'player',
+      userId: getBackendUtils().generateUuid(),
+      username: ''
+    };
+
+    getBackendSheets().createUserRecord(user);
+
+    return buildUserSession(user, idToken);
+  }
+
   var exported = {
     buildUserSession: buildUserSession,
     isValidAudience: isValidAudience,
     loginCustom: loginCustom,
     loginGoogle: loginGoogle,
+    registerCustom: registerCustom,
+    registerGoogle: registerGoogle,
     verifyGoogleToken: verifyGoogleToken
   };
 

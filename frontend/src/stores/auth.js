@@ -48,6 +48,24 @@ export const useAuthStore = defineStore("auth", {
 			this.isGoogle = true;
 			persistSession(this.user, this.token, this.isGoogle);
 		},
+		async registerWithCustom(firstName, lastName, username, passwordHash) {
+			const { apiCall } = useApi();
+			const session = await apiCall("registerCustom", { firstName, lastName, passwordHash, username });
+
+			this.user = buildUser(session);
+			this.token = session.token;
+			this.isGoogle = false;
+			persistSession(this.user, this.token, false);
+		},
+		async registerWithGoogle(idToken) {
+			const { apiCall } = useApi();
+			const session = await apiCall("registerGoogle", { idToken });
+
+			this.user = buildUser(session);
+			this.token = idToken;
+			this.isGoogle = true;
+			persistSession(this.user, this.token, true);
+		},
 		logout() {
 			this.user = null;
 			this.token = "";

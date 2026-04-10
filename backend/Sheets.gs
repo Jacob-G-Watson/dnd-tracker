@@ -177,6 +177,10 @@
     return getRows(SHEET_CHARACTERS);
   }
 
+  function createUserRecord(user) {
+    return appendObject(SHEET_USERS, user);
+  }
+
   function createCharacterRecord(character) {
     return appendObject(SHEET_CHARACTERS, character);
   }
@@ -211,6 +215,7 @@
     SHEET_USERS: SHEET_USERS,
     createCharacterRecord: createCharacterRecord,
     createSessionRecord: createSessionRecord,
+    createUserRecord: createUserRecord,
     getAllCharacters: getAllCharacters,
     getAllSessions: getAllSessions,
     getCharacterById: getCharacterById,

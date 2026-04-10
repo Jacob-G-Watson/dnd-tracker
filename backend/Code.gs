@@ -1,6 +1,8 @@
 (function attachCode(root) {
   var ACTION_LOGIN_CUSTOM = 'loginCustom';
   var ACTION_LOGIN_GOOGLE = 'loginGoogle';
+  var ACTION_REGISTER_CUSTOM = 'registerCustom';
+  var ACTION_REGISTER_GOOGLE = 'registerGoogle';
   var ACTION_GET_CHARACTERS = 'getCharacters';
   var ACTION_UPDATE_CHARACTER = 'updateCharacter';
   var ACTION_CREATE_CHARACTER = 'createCharacter';
@@ -101,7 +103,8 @@
   }
 
   function resolveAuthenticatedUser(body) {
-    if (body.action === ACTION_LOGIN_CUSTOM || body.action === ACTION_LOGIN_GOOGLE) {
+    if (body.action === ACTION_LOGIN_CUSTOM || body.action === ACTION_LOGIN_GOOGLE ||
+        body.action === ACTION_REGISTER_CUSTOM || body.action === ACTION_REGISTER_GOOGLE) {
       return null;
     }
 
@@ -134,6 +137,14 @@
 
     if (action === ACTION_LOGIN_GOOGLE) {
       return requireBackendAuth().loginGoogle(body.idToken);
+    }
+
+    if (action === ACTION_REGISTER_CUSTOM) {
+      return requireBackendAuth().registerCustom(body.firstName, body.lastName, body.username, body.passwordHash);
+    }
+
+    if (action === ACTION_REGISTER_GOOGLE) {
+      return requireBackendAuth().registerGoogle(body.idToken);
     }
 
     if (action === ACTION_GET_CHARACTERS) {

@@ -3,6 +3,13 @@ import { onMounted } from 'vue';
 
 const emit = defineEmits(['success']);
 
+const props = defineProps({
+  label: {
+    default: 'Login with Google',
+    type: String
+  }
+});
+
 const CLIENT_ID = '825391979156-nav8rhp687mvg02grt6elvfo4c2cubrg.apps.googleusercontent.com';
 const GOOGLE_SCRIPT_SOURCE = 'https://accounts.google.com/gsi/client';
 
@@ -49,7 +56,7 @@ onMounted(async () => {
 
 <template>
   <button class="secondary-button" type="button" @click="promptGoogleLogin">
-    Login with Google
+    {{ props.label }}
   </button>
 </template>
 

@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import CustomLoginForm from '../components/CustomLoginForm.vue';
+import CustomSignupForm from '../components/CustomSignupForm.vue';
 import GoogleLoginButton from '../components/GoogleLoginButton.vue';
 import { useAuthStore } from '../stores/auth';
 
@@ -10,22 +10,22 @@ const authStore = useAuthStore();
 const router = useRouter();
 const errorMessage = ref('');
 
-async function handleCustomLogin(credentials) {
+async function handleCustomSignup(fields) {
   errorMessage.value = '';
 
   try {
-    await authStore.loginWithCustom(credentials.username, credentials.passwordHash);
+    await authStore.registerWithCustom(fields.firstName, fields.lastName, fields.username, fields.passwordHash);
     await router.push({ name: 'dashboard' });
   } catch (error) {
     errorMessage.value = error.message;
   }
 }
 
-async function handleGoogleLogin(idToken) {
+async function handleGoogleSignup(idToken) {
   errorMessage.value = '';
 
   try {
-    await authStore.loginWithGoogle(idToken);
+    await authStore.registerWithGoogle(idToken);
     await router.push({ name: 'dashboard' });
   } catch (error) {
     errorMessage.value = error.message;
@@ -36,13 +36,17 @@ async function handleGoogleLogin(idToken) {
 <template>
   <main class="login-layout">
     <section class="login-panel">
-      <h1>D&amp;D Character Tracker</h1>
+      <p class="eyebrow">Serverless campaign management</p>
+      <h1>Create Account</h1>
+      <p class="intro-copy">
+        Sign up to start managing your character sheet and tracking your campaign progress.
+      </p>
       <div class="login-actions">
-        <GoogleLoginButton @success="handleGoogleLogin" />
-        <CustomLoginForm @submit="handleCustomLogin" />
+        <GoogleLoginButton label="Sign up with Google" @success="handleGoogleSignup" />
+        <CustomSignupForm @submit="handleCustomSignup" />
       </div>
       <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-      <p class="switch-link">Don't have an account? <RouterLink :to="{ name: 'signup' }">Sign up</RouterLink></p>
+      <p class="switch-link">Already have an account? <RouterLink :to="{ name: 'login' }">Log in</RouterLink></p>
     </section>
   </main>
 </template>
