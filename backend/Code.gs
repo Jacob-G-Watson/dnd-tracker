@@ -140,7 +140,7 @@
     }
 
     if (action === ACTION_REGISTER_CUSTOM) {
-      return requireBackendAuth().registerCustom(body.firstName, body.lastName, body.username, body.passwordHash);
+      return requireBackendAuth().registerCustom(body.firstName, body.lastName, body.username, body.passwordHash, body.email);
     }
 
     if (action === ACTION_REGISTER_GOOGLE) {

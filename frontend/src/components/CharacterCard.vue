@@ -11,13 +11,16 @@ const props = defineProps({
   },
   currentUser: {
     required: true,
-    type: Object
+    type: Object,
+    default: null,
+    validator: (v) => v === null || typeof v === 'object'
   }
 });
 
 const emit = defineEmits(['edit']);
 
 const canEdit = computed(() => {
+  if (!props.currentUser) return false;
   const isDm = props.currentUser.role === ROLE_DM;
   const isOwner = props.currentUser.userId === props.character.userId;
 

@@ -48,9 +48,9 @@ export const useAuthStore = defineStore("auth", {
 			this.isGoogle = true;
 			persistSession(this.user, this.token, this.isGoogle);
 		},
-		async registerWithCustom(firstName, lastName, username, passwordHash) {
+		async registerWithCustom(firstName, lastName, username, passwordHash, email = "") {
 			const { apiCall } = useApi();
-			const session = await apiCall("registerCustom", { firstName, lastName, passwordHash, username });
+			const session = await apiCall("registerCustom", { email, firstName, lastName, passwordHash, username });
 
 			this.user = buildUser(session);
 			this.token = session.token;

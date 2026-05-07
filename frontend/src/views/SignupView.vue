@@ -14,7 +14,7 @@ async function handleCustomSignup(fields) {
   errorMessage.value = '';
 
   try {
-    await authStore.registerWithCustom(fields.firstName, fields.lastName, fields.username, fields.passwordHash);
+    await authStore.registerWithCustom(fields.firstName, fields.lastName, fields.username, fields.passwordHash, fields.email);
     await router.push({ name: 'dashboard' });
   } catch (error) {
     errorMessage.value = error.message;
@@ -61,6 +61,7 @@ async function handleGoogleSignup(idToken) {
 
 .login-panel {
   width: min(30rem, 100%);
+  box-sizing: border-box;
   padding: 2rem;
   border-radius: 32px;
   background: rgba(255, 255, 255, 0.88);

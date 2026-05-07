@@ -81,10 +81,28 @@ describe("registerCustom", () => {
 			installGasMocks({ spreadsheet });
 			const { auth } = loadBackend();
 
-			const session = auth.registerCustom("Bob", "Carter", "bob", "hash-2");
+			const session = auth.registerCustom("Bob", "Carter", "bob", "hash-2", "bob@example.com");
 
 			expect(session.firstName).toBe("Bob");
 			expect(session.lastName).toBe("Carter");
+			expect(session.role).toBe("player");
+			expect(session.token).toBeTruthy();
+			expect(session.userId).toBeTruthy();
+		});
+
+		it("when first and last name are empty then it still creates the user", () => {
+			const spreadsheet = createSpreadsheet({
+				Sessions: createSheet([["token", "userId", "createdAt", "expiresAt"]]),
+				Users: createSheet([["userId", "firstName", "lastName", "email", "username", "passwordHash", "role"]]),
+			});
+
+			installGasMocks({ spreadsheet });
+			const { auth } = loadBackend();
+
+			const session = auth.registerCustom("", "", "bob", "hash-2", "");
+
+			expect(session.firstName).toBe("");
+			expect(session.lastName).toBe("");
 			expect(session.role).toBe("player");
 			expect(session.token).toBeTruthy();
 			expect(session.userId).toBeTruthy();
@@ -108,6 +126,25 @@ describe("registerCustom", () => {
 		});
 	});
 
+	describe("given the email is already taken", () => {
+		it("when called then throws an email taken error", () => {
+			const spreadsheet = createSpreadsheet({
+				Sessions: createSheet([["token", "userId", "createdAt", "expiresAt"]]),
+				Users: createSheet([
+					["userId", "firstName", "lastName", "email", "username", "passwordHash", "role"],
+					["u001", "Alice", "Stone", "alice@example.com", "alice", "hash-1", "player"],
+				]),
+			});
+
+			installGasMocks({ spreadsheet });
+			const { auth } = loadBackend();
+
+			expect(() => auth.registerCustom("Bob", "Carter", "bob", "hash-2", "alice@example.com")).toThrow(
+				"Email is already taken",
+			);
+		});
+	});
+
 	describe("given required fields are missing", () => {
 		it("when called without a username then throws a required fields error", () => {
 			const spreadsheet = createSpreadsheet({
@@ -119,7 +156,7 @@ describe("registerCustom", () => {
 			const { auth } = loadBackend();
 
 			expect(() => auth.registerCustom("Bob", "Carter", "", "hash-2")).toThrow(
-				"All fields are required to register",
+				"Username and password are required to register",
 			);
 		});
 	});

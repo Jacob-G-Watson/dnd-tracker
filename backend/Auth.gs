@@ -88,25 +88,39 @@
     };
   }
 
-  function registerCustom(firstName, lastName, username, passwordHash) {
-    if (!firstName || !lastName || !username || !passwordHash) {
-      throw getBackendUtils().createError('All fields are required to register');
+  function registerCustom(firstName, lastName, username, passwordHash, email) {
+    var normalizedUsername = String(username || '').trim();
+    var normalizedPasswordHash = String(passwordHash || '');
+    var normalizedFirstName = String(firstName || '').trim();
+    var normalizedLastName = String(lastName || '').trim();
+    var normalizedEmail = String(email || '').trim();
+
+    if (!normalizedUsername || !normalizedPasswordHash) {
+      throw getBackendUtils().createError('Username and password are required to register');
     }
 
-    var existingUser = getBackendSheets().getUserByUsername(username);
+    var existingUser = getBackendSheets().getUserByUsername(normalizedUsername);
 
     if (existingUser) {
       throw getBackendUtils().createError('Username is already taken');
     }
 
+    if (normalizedEmail) {
+      var existingUserByEmail = getBackendSheets().getUserByEmail(normalizedEmail);
+
+      if (existingUserByEmail) {
+        throw getBackendUtils().createError('Email is already taken');
+      }
+    }
+
     var user = {
-      email: '',
-      firstName: firstName,
-      lastName: lastName,
-      passwordHash: passwordHash,
+      email: normalizedEmail,
+      firstName: normalizedFirstName,
+      lastName: normalizedLastName,
+      passwordHash: normalizedPasswordHash,
       role: 'player',
       userId: getBackendUtils().generateUuid(),
-      username: username
+      username: normalizedUsername
     };
 
     getBackendSheets().createUserRecord(user);

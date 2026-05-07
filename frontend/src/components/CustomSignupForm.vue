@@ -7,6 +7,7 @@ const emit = defineEmits(['submit']);
 
 const form = reactive({
   confirmPassword: '',
+  email: '',
   firstName: '',
   lastName: '',
   password: '',
@@ -28,6 +29,7 @@ async function submitForm() {
   try {
     const passwordHash = await hashPassword(form.password);
     await emit('submit', {
+      email: form.email,
       firstName: form.firstName,
       lastName: form.lastName,
       passwordHash,
@@ -45,14 +47,18 @@ async function submitForm() {
   <form class="signup-form" @submit.prevent="submitForm">
     <div class="name-row">
       <label>
-        First Name
-        <input v-model="form.firstName" autocomplete="given-name" required type="text" />
+        First Name (optional)
+        <input v-model="form.firstName" autocomplete="given-name" type="text" />
       </label>
       <label>
-        Last Name
-        <input v-model="form.lastName" autocomplete="family-name" required type="text" />
+        Last Name (optional)
+        <input v-model="form.lastName" autocomplete="family-name" type="text" />
       </label>
     </div>
+    <label>
+      Email (optional)
+      <input v-model="form.email" autocomplete="email" type="email" />
+    </label>
     <label>
       Username
       <input v-model="form.username" autocomplete="username" required type="text" />
@@ -92,6 +98,8 @@ label {
 }
 
 input {
+  width: 85%;
+  min-width: 0;
   padding: 0.85rem 1rem;
   border-radius: 14px;
   border: 1px solid #cbd5e1;
@@ -106,8 +114,20 @@ input {
   cursor: pointer;
 }
 
+.required-note {
+  margin: 0;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
 .error-message {
   margin: 0;
   color: #b91c1c;
+}
+
+@media (max-width: 460px) {
+  .name-row {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
