@@ -12,6 +12,9 @@ backend/coverage/
 .env.*
 !.env.example
 
+# clasp credentials (never commit)
+.clasprc.json
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
