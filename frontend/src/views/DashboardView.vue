@@ -53,7 +53,6 @@ onMounted(loadCharacters);
     </header>
 
     <section class="dashboard-grid">
-      <CharacterCreateForm @create="createCharacter" />
       <section class="list-panel">
         <div class="panel-header">
           <h2>Characters</h2>
@@ -61,19 +60,26 @@ onMounted(loadCharacters);
         </div>
         <p v-if="charactersStore.error" class="error-message">{{ charactersStore.error }}</p>
         <div class="card-grid">
-          <CharacterCard
+          <template
             v-for="character in charactersStore.characters"
             :key="character.characterId"
-            :character="character"
-            :current-user="authStore.user"
-            @edit="selectedCharacter = $event"
-          />
+          >
+            <CharacterEditor
+              v-if="selectedCharacter?.characterId === character.characterId"
+              :character="selectedCharacter"
+              @save="saveCharacter"
+              @cancel="selectedCharacter = null"
+            />
+            <CharacterCard
+              v-else
+              :character="character"
+              :current-user="authStore.user"
+              @edit="selectedCharacter = $event"
+            />
+          </template>
         </div>
       </section>
-      <section v-if="selectedCharacter" class="list-panel">
-        <h2>Edit Character</h2>
-        <CharacterEditor :character="selectedCharacter" @save="saveCharacter" />
-      </section>
+      <CharacterCreateForm @create="createCharacter" />
     </section>
   </main>
 </template>

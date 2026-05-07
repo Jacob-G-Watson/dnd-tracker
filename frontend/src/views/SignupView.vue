@@ -36,7 +36,6 @@ async function handleGoogleSignup(idToken) {
 <template>
   <main class="login-layout">
     <section class="login-panel">
-      <p class="eyebrow">Serverless campaign management</p>
       <h1>Create Account</h1>
       <p class="intro-copy">
         Sign up to start managing your character sheet and tracking your campaign progress.

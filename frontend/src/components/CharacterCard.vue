@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { getLevelFromSessions } from '../utils/sessionLevels';
 
 const ROLE_DM = 'DM';
 
@@ -22,6 +23,10 @@ const canEdit = computed(() => {
 
   return isDm || isOwner;
 });
+
+const characterLevel = computed(() => {
+  return getLevelFromSessions(props.character.sessions);
+});
 </script>
 
 <template>
@@ -39,6 +44,10 @@ const canEdit = computed(() => {
       <div>
         <dt>Sessions</dt>
         <dd>{{ character.sessions }}</dd>
+      </div>
+      <div>
+        <dt>Level</dt>
+        <dd>{{ characterLevel }}</dd>
       </div>
     </dl>
     <p class="description">{{ character.description }}</p>
