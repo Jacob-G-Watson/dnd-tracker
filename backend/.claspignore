@@ -1,0 +1,6 @@
+# Ignore everything by default
+**/**
+
+# Allow only Apps Script files and manifest
+!*.gs
+!appsscript.json
