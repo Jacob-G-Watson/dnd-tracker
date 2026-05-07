@@ -8,6 +8,9 @@ on:
       - 'backend/**'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -32,3 +35,24 @@ jobs:
       - name: Push to Apps Script
         working-directory: backend
         run: npx clasp push --force
+
+      - name: Deploy Web App
+        working-directory: backend
+        id: deploy
+        run: |
+          DEPLOY_OUTPUT=$(npx clasp deploy -i "${{ vars.DEPLOYMENT_ID }}" -d "Auto deploy $(date -u +%Y-%m-%dT%H:%M:%SZ)")
+          echo "$DEPLOY_OUTPUT"
+          WEBAPP_URL="https://script.google.com/macros/s/${{ vars.DEPLOYMENT_ID }}/exec"
+          echo "url=$WEBAPP_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Update API_URL variable
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          gh variable set API_URL --body "${{ steps.deploy.outputs.url }}" --repo ${{ github.repository }}
+
+      - name: Trigger frontend deploy
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          gh workflow run deploy.yml --repo ${{ github.repository }}
