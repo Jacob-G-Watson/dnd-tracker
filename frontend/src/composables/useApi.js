@@ -1,6 +1,7 @@
 import { useAuthStore } from "../stores/auth";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL =
+	"https://script.google.com/macros/s/AKfycbxQGf4u3QVn5K5E6iKWdF41qdua-COyc45UmsaQcm4wW9UFcXGf6MdmWOlZGFpRxi_TzQ/exec";
 const AUTH_ERROR_MESSAGES = ["Authentication is required", "Invalid or expired session"];
 const CONTENT_TYPE_TEXT = "text/plain;charset=utf-8";
 

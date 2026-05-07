@@ -4,8 +4,16 @@ import { onMounted } from 'vue';
 const emit = defineEmits(['success']);
 
 const props = defineProps({
+  isLoading: {
+    default: false,
+    type: Boolean
+  },
   label: {
     default: 'Login with Google',
+    type: String
+  },
+  loadingText: {
+    default: 'Please wait...',
     type: String
   }
 });
@@ -55,8 +63,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <button class="secondary-button" type="button" @click="promptGoogleLogin">
-    {{ props.label }}
+  <button class="secondary-button" :disabled="props.isLoading" type="button" @click="promptGoogleLogin">
+    {{ props.isLoading ? props.loadingText : props.label }}
   </button>
 </template>
 
@@ -70,5 +78,10 @@ onMounted(async () => {
   color: #1f2937;
   font-size: 1rem;
   cursor: pointer;
+}
+
+.secondary-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 </style>

@@ -1,9 +1,15 @@
 <script setup>
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 
 import { hashPassword } from '../composables/useSha256';
 
 const emit = defineEmits(['submit']);
+const props = defineProps({
+  isLoading: {
+    default: false,
+    type: Boolean
+  }
+});
 
 const form = reactive({
   confirmPassword: '',
@@ -13,8 +19,10 @@ const form = reactive({
   password: '',
   username: ''
 });
+const LOADING_TEXT = 'Please wait...';
 const errorMessage = ref('');
-const isSubmitting = ref(false);
+const isPreparingSubmit = ref(false);
+const isSubmitting = computed(() => isPreparingSubmit.value || props.isLoading);
 
 async function submitForm() {
   errorMessage.value = '';
@@ -24,11 +32,11 @@ async function submitForm() {
     return;
   }
 
-  isSubmitting.value = true;
+  isPreparingSubmit.value = true;
 
   try {
     const passwordHash = await hashPassword(form.password);
-    await emit('submit', {
+    emit('submit', {
       email: form.email,
       firstName: form.firstName,
       lastName: form.lastName,
@@ -38,7 +46,7 @@ async function submitForm() {
   } catch (error) {
     errorMessage.value = error.message;
   } finally {
-    isSubmitting.value = false;
+    isPreparingSubmit.value = false;
   }
 }
 </script>
@@ -72,8 +80,9 @@ async function submitForm() {
       <input v-model="form.confirmPassword" autocomplete="new-password" required type="password" />
     </label>
     <button class="primary-button" :disabled="isSubmitting" type="submit">
-      Sign Up with Username/Password
+      {{ isSubmitting ? LOADING_TEXT : 'Sign Up with Username/Password' }}
     </button>
+    <p v-if="isSubmitting" aria-live="polite" class="loading-message">{{ LOADING_TEXT }}</p>
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </form>
 </template>
@@ -118,6 +127,11 @@ input {
   margin: 0;
   color: #475569;
   font-size: 0.9rem;
+}
+
+.loading-message {
+  margin: 0;
+  color: #334155;
 }
 
 .error-message {

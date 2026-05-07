@@ -40,22 +40,15 @@ jobs:
         working-directory: backend
         id: deploy
         run: |
-          if [ -n "${{ vars.DEPLOYMENT_ID }}" ]; then
-            DEPLOY_OUTPUT=$(npx clasp deploy -i "${{ vars.DEPLOYMENT_ID }}" -d "Auto deploy $(date -u +%Y-%m-%dT%H:%M:%SZ)")
-          else
-            DEPLOY_OUTPUT=$(npx clasp deploy -d "Auto deploy $(date -u +%Y-%m-%dT%H:%M:%SZ)")
-          fi
+          DEPLOY_OUTPUT=$(npx clasp deploy -i "${{ vars.DEPLOYMENT_ID }}" -d "Auto deploy $(date -u +%Y-%m-%dT%H:%M:%SZ)")
           echo "$DEPLOY_OUTPUT"
-          DEPLOY_ID=$(echo "$DEPLOY_OUTPUT" | grep -oP '(?<=- )\S+(?= @)')
-          echo "deploy_id=$DEPLOY_ID" >> "$GITHUB_OUTPUT"
-          echo "url=https://script.google.com/macros/s/$DEPLOY_ID/exec" >> "$GITHUB_OUTPUT"
+          echo "url=https://script.google.com/macros/s/${{ vars.DEPLOYMENT_ID }}/exec" >> "$GITHUB_OUTPUT"
 
       - name: Update GitHub variables
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           gh variable set API_URL --body "${{ steps.deploy.outputs.url }}" --repo ${{ github.repository }}
-          gh variable set DEPLOYMENT_ID --body "${{ steps.deploy.outputs.deploy_id }}" --repo ${{ github.repository }}
 
       - name: Trigger frontend deploy
         env:

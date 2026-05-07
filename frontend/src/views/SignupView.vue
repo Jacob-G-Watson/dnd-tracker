@@ -9,26 +9,34 @@ import { useAuthStore } from '../stores/auth';
 const authStore = useAuthStore();
 const router = useRouter();
 const errorMessage = ref('');
+const isCustomSubmitting = ref(false);
+const isGoogleSubmitting = ref(false);
 
 async function handleCustomSignup(fields) {
   errorMessage.value = '';
+  isCustomSubmitting.value = true;
 
   try {
     await authStore.registerWithCustom(fields.firstName, fields.lastName, fields.username, fields.passwordHash, fields.email);
     await router.push({ name: 'dashboard' });
   } catch (error) {
     errorMessage.value = error.message;
+  } finally {
+    isCustomSubmitting.value = false;
   }
 }
 
 async function handleGoogleSignup(idToken) {
   errorMessage.value = '';
+  isGoogleSubmitting.value = true;
 
   try {
     await authStore.registerWithGoogle(idToken);
     await router.push({ name: 'dashboard' });
   } catch (error) {
     errorMessage.value = error.message;
+  } finally {
+    isGoogleSubmitting.value = false;
   }
 }
 </script>
@@ -41,8 +49,8 @@ async function handleGoogleSignup(idToken) {
         Sign up to start managing your character sheet and tracking your campaign progress.
       </p>
       <div class="login-actions">
-        <GoogleLoginButton label="Sign up with Google" @success="handleGoogleSignup" />
-        <CustomSignupForm @submit="handleCustomSignup" />
+        <GoogleLoginButton :is-loading="isGoogleSubmitting" label="Sign up with Google" @success="handleGoogleSignup" />
+        <CustomSignupForm :is-loading="isCustomSubmitting" @submit="handleCustomSignup" />
       </div>
       <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
       <p class="switch-link">Already have an account? <RouterLink :to="{ name: 'login' }">Log in</RouterLink></p>

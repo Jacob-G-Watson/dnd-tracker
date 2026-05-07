@@ -16,7 +16,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend_changed: ${{ steps.filter.outputs.backend }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect changed paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            backend:
+              - 'backend/**'
+
   build:
+    needs: changes
+    if: needs.changes.outputs.backend_changed != 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -45,7 +63,10 @@ jobs:
           path: frontend/dist
 
   deploy:
-    needs: build
+    needs:
+      - changes
+      - build
+    if: needs.changes.outputs.backend_changed != 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
