@@ -37,11 +37,11 @@ describe("CharacterCard", () => {
 		});
 	});
 
-	describe("given the current user is a dungeon master", () => {
-		it("when rendered then the edit button is visible", () => {
+	describe("given the current user is a dungeon master viewing another user's character", () => {
+		it("when rendered then the edit button is hidden", () => {
 			const wrapper = buildCharacterCard({ role: "dungeonMaster", userId: "u999" });
 
-			expect(wrapper.text()).toContain("Edit");
+			expect(wrapper.text()).not.toContain("Edit");
 		});
 	});
 });

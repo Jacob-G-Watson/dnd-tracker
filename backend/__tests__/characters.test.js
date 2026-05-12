@@ -23,19 +23,22 @@ describe("getCharacters", () => {
 	});
 
 	describe("given the current user is a dungeon master", () => {
-		it("when called then returns all characters", () => {
+		it("when called then returns only their own characters", () => {
 			const spreadsheet = createSpreadsheet({
 				Characters: createSheet([
 					["characterId", "userId", "name", "class", "race", "sessions", "description"],
 					["c001", "u001", "Thorne", "Rogue", "Elf", 5, "Quiet wanderer"],
-					["c002", "u002", "Mira", "Cleric", "Human", 3, "Healer"],
+					["c002", "u999", "Mira", "Cleric", "Human", 3, "Healer"],
 				]),
 			});
 
 			installGasMocks({ spreadsheet });
 			const { characters } = loadBackend();
 
-			expect(characters.getCharacters("u999", "dungeonMaster")).toHaveLength(2);
+			const result = characters.getCharacters("u999", "dungeonMaster");
+
+			expect(result).toHaveLength(1);
+			expect(result[0].characterId).toBe("c002");
 		});
 	});
 });

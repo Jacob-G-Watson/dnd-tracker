@@ -1,5 +1,5 @@
 (function attachCharacters(root) {
-  var ALLOWED_CHARACTER_FIELDS = ['class', 'description', 'name', 'race', 'sessions', 'userId'];
+  var ALLOWED_CHARACTER_FIELDS = ['class', 'description', 'name', 'race', 'sessions'];
 
   function getBackendSheets() {
     if (root.BackendSheets) {
@@ -25,11 +25,7 @@
     return null;
   }
 
-  function getCharacters(userId, role) {
-    if (getBackendSheets().isDmRole(role)) {
-      return getBackendSheets().getAllCharacters();
-    }
-
+  function getCharacters(userId) {
     return getBackendSheets().getCharactersByUserId(userId);
   }
 
@@ -56,13 +52,12 @@
       throw getBackendUtils().createError('Character not found');
     }
 
-    ensureCharacterAccess(character, userId, role);
+    ensureCharacterAccess(character, userId);
 
     return getBackendSheets().updateCharacterRecord(characterId, sanitizedUpdates);
   }
 
-  function createCharacter(fields, userId, role) {
-    var ownerId = resolveOwnerId(fields, userId, role);
+  function createCharacter(fields, userId) {
     var sessions = Number(fields.sessions || 0);
     var character = {
       characterId: root.BackendUtils.generateUuid(),
@@ -71,7 +66,7 @@
       name: fields.name || '',
       race: fields.race || '',
       sessions: sessions,
-      userId: ownerId
+      userId: userId
     };
 
     return getBackendSheets().createCharacterRecord(character);
@@ -93,19 +88,7 @@
     return sanitized;
   }
 
-  function resolveOwnerId(fields, userId, role) {
-    if (getBackendSheets().isDmRole(role) && fields.userId) {
-      return fields.userId;
-    }
-
-    return userId;
-  }
-
-  function ensureCharacterAccess(character, userId, role) {
-    if (getBackendSheets().isDmRole(role)) {
-      return;
-    }
-
+  function ensureCharacterAccess(character, userId) {
     if (!isCharacterOwner(character, userId)) {
       throw getBackendUtils().createError('You do not have permission to modify this character');
     }
