@@ -3,7 +3,7 @@
   var SHEET_USERS = 'Users';
   var SHEET_CHARACTERS = 'Characters';
   var SHEET_SESSIONS = 'Sessions';
-  var ROLE_DM = 'DM';
+  var ROLE_DUNGEON_MASTER = 'dungeonMaster';
 
   function getBackendUtils() {
     if (root.BackendUtils) {
@@ -177,6 +177,22 @@
     return getRows(SHEET_CHARACTERS);
   }
 
+  function getDirectoryUsers(excludedUserId) {
+    return getRows(SHEET_USERS)
+      .filter(function isNotRequester(user) {
+        return user.userId !== excludedUserId;
+      })
+      .map(function toDirectoryUser(user) {
+        return {
+          firstName: user.firstName || '',
+          lastName: user.lastName || '',
+          role: user.role || '',
+          userId: user.userId,
+          username: user.username || ''
+        };
+      });
+  }
+
   function createUserRecord(user) {
     return appendObject(SHEET_USERS, user);
   }
@@ -206,7 +222,7 @@
   }
 
   function isDmRole(role) {
-    return role === ROLE_DM;
+    return role === ROLE_DUNGEON_MASTER;
   }
 
   var exported = {
@@ -218,6 +234,7 @@
     createUserRecord: createUserRecord,
     getAllCharacters: getAllCharacters,
     getAllSessions: getAllSessions,
+    getDirectoryUsers: getDirectoryUsers,
     getCharacterById: getCharacterById,
     getCharactersByUserId: getCharactersByUserId,
     getRows: getRows,

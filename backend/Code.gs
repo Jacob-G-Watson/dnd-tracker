@@ -6,6 +6,8 @@
   var ACTION_GET_CHARACTERS = 'getCharacters';
   var ACTION_UPDATE_CHARACTER = 'updateCharacter';
   var ACTION_CREATE_CHARACTER = 'createCharacter';
+  var ACTION_LIST_USERS_FOR_DIRECTORY = 'listUsersForDirectory';
+  var ACTION_GET_USER_CHARACTERS = 'getUserCharacters';
 
   function getBackendAuth() {
     if (root.BackendAuth) {
@@ -162,6 +164,14 @@
 
     if (action === ACTION_CREATE_CHARACTER) {
       return getBackendCharacters().createCharacter(body.character, authenticatedUser.userId, authenticatedUser.role);
+    }
+
+    if (action === ACTION_LIST_USERS_FOR_DIRECTORY) {
+      return getBackendCharacters().listUsersForDirectory(authenticatedUser.userId, authenticatedUser.role);
+    }
+
+    if (action === ACTION_GET_USER_CHARACTERS) {
+      return getBackendCharacters().getUserCharacters(body.userId, authenticatedUser.role);
     }
 
     throw getBackendUtils().createError('Unknown action');

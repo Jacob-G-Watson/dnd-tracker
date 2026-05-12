@@ -7,6 +7,7 @@ import CharacterCreateForm from '../components/CharacterCreateForm.vue';
 import CharacterEditor from '../components/CharacterEditor.vue';
 import { useAuthStore } from '../stores/auth';
 import { useCharactersStore } from '../stores/characters';
+import { isDungeonMasterUser } from '../utils/roles';
 
 const authStore = useAuthStore();
 const charactersStore = useCharactersStore();
@@ -20,6 +21,8 @@ const displayName = computed(() => {
 
   return `${authStore.user.firstName} ${authStore.user.lastName}`.trim();
 });
+
+const isDungeonMaster = computed(() => isDungeonMasterUser(authStore.user));
 
 async function loadCharacters() {
   await charactersStore.fetchCharacters();
@@ -39,6 +42,10 @@ async function logout() {
   await router.push({ name: 'login' });
 }
 
+async function openDungeonMasterDirectory() {
+  await router.push({ name: 'dungeonMaster' });
+}
+
 onMounted(loadCharacters);
 </script>
 
@@ -49,7 +56,17 @@ onMounted(loadCharacters);
         <p class="eyebrow">{{ authStore.user?.role }}</p>
         <h1>{{ displayName }}</h1>
       </div>
-      <button class="secondary-button" type="button" @click="logout">Logout</button>
+      <div class="header-actions">
+        <button
+          v-if="isDungeonMaster"
+          class="secondary-button"
+          type="button"
+          @click="openDungeonMasterDirectory"
+        >
+          Player Directory
+        </button>
+        <button class="secondary-button" type="button" @click="logout">Logout</button>
+      </div>
     </header>
 
     <section class="dashboard-grid">
@@ -104,6 +121,13 @@ onMounted(loadCharacters);
 .dashboard-grid {
   display: grid;
   gap: 1.5rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .list-panel {

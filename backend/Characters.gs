@@ -33,6 +33,21 @@
     return getBackendSheets().getCharactersByUserId(userId);
   }
 
+  function listUsersForDirectory(requestingUserId, role) {
+    ensureDungeonMaster(role);
+    return getBackendSheets().getDirectoryUsers(requestingUserId);
+  }
+
+  function getUserCharacters(targetUserId, role) {
+    ensureDungeonMaster(role);
+
+    if (!targetUserId) {
+      throw getBackendUtils().createError('userId is required');
+    }
+
+    return getBackendSheets().getCharactersByUserId(targetUserId);
+  }
+
   function updateCharacter(characterId, updates, userId, role) {
     var character = getBackendSheets().getCharacterById(characterId);
     var sanitizedUpdates = sanitizeCharacterUpdates(updates);
@@ -100,10 +115,18 @@
     return character.userId === userId;
   }
 
+  function ensureDungeonMaster(role) {
+    if (!getBackendSheets().isDmRole(role)) {
+      throw getBackendUtils().createError('Only dungeon masters can perform this action');
+    }
+  }
+
   var exported = {
     createCharacter: createCharacter,
     getCharacters: getCharacters,
+    getUserCharacters: getUserCharacters,
     isCharacterOwner: isCharacterOwner,
+    listUsersForDirectory: listUsersForDirectory,
     sanitizeCharacterUpdates: sanitizeCharacterUpdates,
     updateCharacter: updateCharacter
   };

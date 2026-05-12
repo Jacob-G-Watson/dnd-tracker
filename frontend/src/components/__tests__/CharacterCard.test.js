@@ -37,9 +37,9 @@ describe("CharacterCard", () => {
 		});
 	});
 
-	describe("given the current user is a dm", () => {
+	describe("given the current user is a dungeon master", () => {
 		it("when rendered then the edit button is visible", () => {
-			const wrapper = buildCharacterCard({ role: "DM", userId: "u999" });
+			const wrapper = buildCharacterCard({ role: "dungeonMaster", userId: "u999" });
 
 			expect(wrapper.text()).toContain("Edit");
 		});

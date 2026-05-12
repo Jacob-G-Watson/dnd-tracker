@@ -5,8 +5,13 @@ import { useApi } from "../composables/useApi";
 export const useCharactersStore = defineStore("characters", {
 	state: () => ({
 		characters: [],
+		directoryError: "",
+		directoryUsers: [],
+		isDirectoryCharactersLoading: false,
+		isDirectoryUsersLoading: false,
 		error: "",
 		isLoading: false,
+		selectedUserCharacters: [],
 	}),
 	actions: {
 		async createCharacter(character) {
@@ -30,6 +35,41 @@ export const useCharactersStore = defineStore("characters", {
 			} finally {
 				this.isLoading = false;
 			}
+		},
+		async fetchDirectoryUsers() {
+			const { apiCall } = useApi();
+
+			this.directoryError = "";
+			this.isDirectoryUsersLoading = true;
+
+			try {
+				this.directoryUsers = await apiCall("listUsersForDirectory");
+			} catch (error) {
+				this.directoryError = error.message;
+				throw error;
+			} finally {
+				this.isDirectoryUsersLoading = false;
+			}
+		},
+		async fetchUserCharacters(userId) {
+			const { apiCall } = useApi();
+
+			this.directoryError = "";
+			this.isDirectoryCharactersLoading = true;
+
+			try {
+				this.selectedUserCharacters = await apiCall("getUserCharacters", { userId });
+			} catch (error) {
+				this.directoryError = error.message;
+				throw error;
+			} finally {
+				this.isDirectoryCharactersLoading = false;
+			}
+		},
+		resetDirectoryState() {
+			this.directoryError = "";
+			this.directoryUsers = [];
+			this.selectedUserCharacters = [];
 		},
 		async updateCharacter(characterId, updates) {
 			const { apiCall } = useApi();

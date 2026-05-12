@@ -1,8 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { getLevelFromSessions } from '../utils/sessionLevels';
-
-const ROLE_DM = 'DM';
+import { isDungeonMasterRole } from '../utils/roles';
 
 const props = defineProps({
   character: {
@@ -21,7 +20,7 @@ const emit = defineEmits(['edit']);
 
 const canEdit = computed(() => {
   if (!props.currentUser) return false;
-  const isDm = props.currentUser.role === ROLE_DM;
+  const isDm = isDungeonMasterRole(props.currentUser.role);
   const isOwner = props.currentUser.userId === props.character.userId;
 
   return isDm || isOwner;
