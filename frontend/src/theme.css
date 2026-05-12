@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Crimson+Text:wght@400;600;700&display=swap");
+
+:root {
+	--bg-page: #efe2c5;
+	--bg-page-ink: #dbc39a;
+	--bg-panel: rgba(248, 238, 214, 0.9);
+	--bg-card: #f4e6c7;
+	--bg-field: #fbf4e3;
+	--ink: #2c1f13;
+	--ink-muted: #5d4a39;
+	--border: #b99a6b;
+	--accent-leather: #6b3f22;
+	--accent-leather-deep: #4f2c16;
+	--accent-forest: #2f4a34;
+	--accent-brass: #b38b4d;
+	--accent-link: #7a1e1e;
+	--danger: #8b1a1a;
+	--shadow-soft: 0 18px 48px rgba(49, 30, 17, 0.2);
+	--shadow-hard: 0 24px 64px rgba(49, 30, 17, 0.28);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	color: var(--ink);
+	font-family: "Crimson Text", serif;
+	background:
+		radial-gradient(circle at 10% 15%, rgba(79, 44, 22, 0.12), transparent 45%),
+		radial-gradient(circle at 90% 85%, rgba(47, 74, 52, 0.09), transparent 40%),
+		linear-gradient(180deg, var(--bg-page-ink), var(--bg-page));
+}
+
+h1,
+h2,
+h3,
+.eyebrow {
+	font-family: "Cinzel", serif;
+	letter-spacing: 0.03em;
+}
+
+p,
+label,
+input,
+textarea,
+button,
+a {
+	font-family: inherit;
+}
+
+a {
+	color: var(--accent-link);
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent-brass);
+	outline-offset: 2px;
+}

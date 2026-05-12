@@ -64,34 +64,39 @@ async function handleGoogleSignup(idToken) {
   display: grid;
   place-items: center;
   padding: 2rem;
-  background: radial-gradient(circle at top, #fef3c7, #e0f2fe 40%, #f8fafc 100%);
+  background:
+    radial-gradient(circle at 20% 15%, rgba(179, 139, 77, 0.22), transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(47, 74, 52, 0.2), transparent 38%),
+    linear-gradient(180deg, #dcc29a, #efe2c5 52%, #e6d2ac 100%);
 }
 
 .login-panel {
   width: min(30rem, 100%);
   box-sizing: border-box;
   padding: 2rem;
-  border-radius: 32px;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+  border-radius: 28px;
+  border: 1px solid var(--border);
+  background: var(--bg-panel);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-hard);
 }
 
 .eyebrow {
   margin: 0 0 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: #0f766e;
+  color: var(--accent-forest);
   font-size: 0.8rem;
 }
 
 h1 {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--ink);
 }
 
 .intro-copy {
-  color: #475569;
+  color: var(--ink-muted);
 }
 
 .login-actions {
@@ -100,19 +105,33 @@ h1 {
 }
 
 .error-message {
-  color: #b91c1c;
+  color: var(--danger);
 }
 
 .switch-link {
   margin-top: 1rem;
   text-align: center;
-  color: #475569;
+  color: var(--ink-muted);
   font-size: 0.9rem;
 }
 
 .switch-link a {
-  color: #1d4ed8;
+  color: var(--accent-link);
   text-decoration: none;
   font-weight: 600;
+}
+
+.switch-link a:hover {
+  color: var(--accent-leather);
+}
+
+@media (max-width: 600px) {
+  .login-layout {
+    padding: 1rem;
+  }
+
+  .login-panel {
+    padding: 1.4rem;
+  }
 }
 </style>

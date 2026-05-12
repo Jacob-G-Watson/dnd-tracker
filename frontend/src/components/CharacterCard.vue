@@ -61,8 +61,9 @@ const characterLevel = computed(() => {
 .character-card {
   padding: 1.25rem;
   border-radius: 24px;
-  background: #ffffff;
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-soft);
 }
 
 .header-row {
@@ -87,13 +88,21 @@ dd {
 }
 
 .description {
-  color: #475569;
+  color: var(--ink-muted);
 }
 
 .secondary-button {
   padding: 0.65rem 0.9rem;
   border-radius: 999px;
-  border: 1px solid #1f2937;
+  border: 1px solid var(--accent-brass);
   background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.secondary-button:hover {
+  background: rgba(179, 139, 77, 0.14);
+  border-color: var(--accent-leather);
 }
 </style>

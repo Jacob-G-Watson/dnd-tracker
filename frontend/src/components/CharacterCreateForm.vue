@@ -48,25 +48,36 @@ async function createCharacter() {
   gap: 0.75rem;
   padding: 1.25rem;
   border-radius: 24px;
-  background: #f8fafc;
+  border: 1px solid var(--border);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-soft);
 }
 
 h2 {
   margin: 0;
+  color: var(--ink);
 }
 
 input,
 textarea {
   padding: 0.8rem 0.9rem;
   border-radius: 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border);
+  background: var(--bg-field);
+  color: var(--ink);
 }
 
 .primary-button {
   padding: 0.9rem 1rem;
   border: 0;
   border-radius: 999px;
-  background: #0f766e;
-  color: #ffffff;
+  background: var(--accent-leather);
+  color: var(--bg-field);
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.primary-button:hover {
+  background: var(--accent-leather-deep);
 }
 </style>

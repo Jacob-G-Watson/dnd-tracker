@@ -88,7 +88,9 @@ onMounted(loadCharacters);
 .dashboard-layout {
   min-height: 100vh;
   padding: 2rem;
-  background: linear-gradient(180deg, #eff6ff, #f8fafc 35%);
+  background:
+    radial-gradient(circle at 15% 8%, rgba(179, 139, 77, 0.2), transparent 35%),
+    linear-gradient(180deg, #e8d4af, #efe2c5 40%);
 }
 
 .dashboard-header {
@@ -107,8 +109,9 @@ onMounted(loadCharacters);
 .list-panel {
   padding: 1.25rem;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+  border: 1px solid var(--border);
+  background: var(--bg-panel);
+  box-shadow: var(--shadow-soft);
 }
 
 .panel-header {
@@ -127,8 +130,16 @@ onMounted(loadCharacters);
 .secondary-button {
   padding: 0.75rem 1rem;
   border-radius: 999px;
-  border: 1px solid #1f2937;
-  background: #ffffff;
+  border: 1px solid var(--accent-brass);
+  background: var(--bg-field);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.secondary-button:hover {
+  background: var(--bg-card);
+  border-color: var(--accent-leather);
 }
 
 .eyebrow {
@@ -136,7 +147,7 @@ onMounted(loadCharacters);
   text-transform: uppercase;
   letter-spacing: 0.16em;
   font-size: 0.75rem;
-  color: #0f766e;
+  color: var(--accent-forest);
 }
 
 h1,
@@ -145,7 +156,12 @@ p {
   margin-top: 0;
 }
 
+h1,
+h2 {
+  color: var(--ink);
+}
+
 .error-message {
-  color: #b91c1c;
+  color: var(--danger);
 }
 </style>

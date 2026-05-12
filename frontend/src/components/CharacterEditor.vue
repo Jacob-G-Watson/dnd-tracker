@@ -81,6 +81,10 @@ function cancelEdit() {
 .editor-form {
   display: grid;
   gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: rgba(251, 244, 227, 0.75);
 }
 
 .field {
@@ -91,7 +95,7 @@ function cancelEdit() {
 .field-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--ink-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding-left: 0.25rem;
@@ -101,7 +105,9 @@ input,
 textarea {
   padding: 0.8rem 0.9rem;
   border-radius: 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border);
+  background: var(--bg-field);
+  color: var(--ink);
 }
 
 .button-group {
@@ -113,19 +119,30 @@ textarea {
   padding: 0.9rem 1rem;
   border: 0;
   border-radius: 999px;
-  background: #1d4ed8;
-  color: #ffffff;
+  background: var(--accent-leather);
+  color: var(--bg-field);
   flex: 1;
   cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.primary-button:hover {
+  background: var(--accent-leather-deep);
 }
 
 .cancel-button {
   padding: 0.9rem 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--accent-brass);
   border-radius: 999px;
-  background: #ffffff;
-  color: #374151;
+  background: var(--bg-field);
+  color: var(--ink);
   flex: 1;
   cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.cancel-button:hover {
+  background: var(--bg-card);
+  border-color: var(--accent-leather);
 }
 </style>

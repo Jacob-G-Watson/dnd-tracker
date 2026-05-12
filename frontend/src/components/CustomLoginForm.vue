@@ -62,32 +62,39 @@ async function submitForm() {
 label {
   display: grid;
   gap: 0.35rem;
-  color: #334155;
+  color: var(--ink-muted);
   font-weight: 600;
 }
 
 input {
   padding: 0.85rem 1rem;
   border-radius: 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border);
+  background: var(--bg-field);
+  color: var(--ink);
 }
 
 .primary-button {
   padding: 0.9rem 1rem;
   border: 0;
   border-radius: 999px;
-  background: #1d4ed8;
-  color: #ffffff;
+  background: var(--accent-leather);
+  color: var(--bg-field);
   cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.primary-button:hover {
+  background: var(--accent-leather-deep);
 }
 
 .loading-message {
   margin: 0;
-  color: #334155;
+  color: var(--ink-muted);
 }
 
 .error-message {
   margin: 0;
-  color: #b91c1c;
+  color: var(--danger);
 }
 </style>

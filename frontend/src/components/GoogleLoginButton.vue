@@ -73,11 +73,17 @@ onMounted(async () => {
   width: 100%;
   padding: 0.9rem 1rem;
   border-radius: 999px;
-  border: 1px solid #1f2937;
-  background: transparent;
-  color: #1f2937;
+  border: 1px solid var(--accent-brass);
+  background: var(--bg-field);
+  color: var(--ink);
   font-size: 1rem;
   cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.secondary-button:hover {
+  background: var(--bg-card);
+  border-color: var(--accent-leather);
 }
 
 .secondary-button:disabled {
